@@ -1,13 +1,262 @@
-<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ND Decorators – Coming Soon</title>
-<meta name="robots" content="noindex,nofollow">
-<style>
-  body{margin:0;height:100vh;display:grid;place-items:center;background:#f7f7f7;font:16px/1.5 system-ui,Arial,sans-serif;color:#222}
-  .card{background:#fff;padding:32px 28px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.07);text-align:center}
-  h1{margin:0 0 8px;font-size:28px}
-  p{margin:0;color:#555}
-</style>
-<div class="card">
-  <h1>ND Decorators</h1>
-  <p>Our new website is coming soon.</p>
-</div>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ND Decorators — Painting & Decorating</title>
+  <meta name="description" content="Interior & exterior painting, decorating and property maintenance in West Norwood, Streatham and across South London." />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="color-scheme" content="light dark">
+  <style>
+    /* --------- Design Tokens --------- */
+    :root{
+      --bg: #fbfbfd;
+      --ink: #0b0b0b;
+      --muted: #6b7076;
+      --line: rgba(0,0,0,.08);
+      --link: #0a84ff;               /* iOS blue */
+      --maxw: 980px;
+      --radius: 14px;
+
+      --space-1: 8px;
+      --space-2: 12px;
+      --space-3: 16px;
+      --space-4: 24px;
+      --space-5: 32px;
+      --space-6: 48px;
+      --space-7: 72px;
+    }
+
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#0b0b0b; --ink:#f5f5f7; --muted:#a0a4aa; --line: rgba(255,255,255,.14);
+      }
+    }
+
+    /* --------- Base --------- */
+    *{ box-sizing:border-box }
+    html{ -webkit-text-size-adjust:100%; }
+    body{
+      margin:0;
+      font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    a{ color:var(--link); text-decoration: none }
+    a:hover{ text-decoration: underline }
+    .wrap{ max-width: var(--maxw); margin-inline:auto; padding-inline: 20px }
+    .section{ padding-block: var(--space-6) }
+    .hairline{ border-top: 1px solid var(--line) }
+    h1,h2,h3{ margin:0 0 var(--space-3); line-height:1.15; letter-spacing:-0.02em }
+    h1{ font-size: clamp(2rem, 5.2vw, 3rem); font-weight: 700 }
+    h2{ font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 700 }
+    h3{ font-size: 1rem; font-weight: 700; letter-spacing: -0.01em }
+    p{ margin:0 0 var(--space-3); color: var(--muted) }
+
+    /* --------- Header --------- */
+    header{
+      position: sticky; top:0; z-index:10;
+      backdrop-filter: saturate(180%) blur(10px);
+      background: color-mix(in oklab, var(--bg), transparent 25%);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav{
+      height: 56px; display:flex; align-items:center; justify-content:space-between;
+    }
+    .brand{ font-weight: 700; letter-spacing: -0.015em }
+    .menu a{ color: var(--ink); opacity:.9 }
+    .menu ul{ list-style:none; display:flex; gap: var(--space-4); padding:0; margin:0 }
+    .menu-btn{ display:none }
+    @media (max-width: 880px){
+      .menu ul{ display:none }
+      .menu-btn{ display:inline-block; border:1px solid var(--line); background:transparent; border-radius:10px; padding:8px 10px }
+      .nav.open .menu ul{
+        position:absolute; left:20px; right:20px; top:56px;
+        display:flex; flex-direction:column; gap:8px; padding:12px;
+        background:var(--bg); border:1px solid var(--line); border-radius:12px;
+      }
+    }
+
+    /* --------- Hero --------- */
+    .hero{ padding-block: var(--space-7) var(--space-5); text-align:center }
+    .lead{ margin-inline:auto; max-width: 700px }
+
+    .cta{ display:flex; gap: var(--space-3); justify-content:center; flex-wrap:wrap; margin-top: var(--space-4) }
+    .btn{
+      display:inline-flex; align-items:center; gap:.55rem;
+      padding: 12px 16px; border-radius: 12px; font-weight: 600; border:1px solid var(--line); color:var(--ink);
+      background: color-mix(in oklab, var(--bg), #000 0%); /* subtle */
+    }
+    .btn.primary{
+      background: var(--ink); color: var(--bg); border-color: var(--ink);
+    }
+    .btn:active{ transform: translateY(1px) }
+
+    /* --------- Simple grids --------- */
+    .grid{ display:grid; gap: var(--space-4) }
+    .grid.cols-2{ grid-template-columns: 1fr }
+    .grid.cols-3{ grid-template-columns: 1fr }
+    @media (min-width: 860px){
+      .grid.cols-2{ grid-template-columns: 1fr 1fr }
+      .grid.cols-3{ grid-template-columns: repeat(3, 1fr) }
+    }
+
+    .tile{
+      padding: var(--space-4);
+      border:1px solid var(--line); border-radius: var(--radius);
+      background: color-mix(in oklab, var(--bg), #000 0%);
+    }
+
+    /* --------- Pills --------- */
+    .pills{ display:flex; flex-wrap:wrap; gap: 10px }
+    .pill{ padding: 8px 12px; border:1px solid var(--line); border-radius: 999px; font-weight:600 }
+
+    /* --------- Footer --------- */
+    footer{ padding-block: var(--space-6); color:var(--muted); text-align:center }
+
+    /* --------- Mobile sticky call --------- */
+    .callbar{
+      position: fixed; inset: auto 16px 16px; display:none;
+      background: var(--ink); color: var(--bg);
+      border-radius: 999px; padding: 12px 16px; text-align:center; font-weight:700;
+    }
+    .callbar:active{ transform: translateY(1px) }
+    @media (max-width: 860px){ .callbar{ display:block } }
+
+    /* breathing room at page end so callbar doesn’t overlap */
+    @media (max-width: 860px){ .pad-bottom { padding-bottom: 84px } }
+  </style>
+</head>
+<body class="pad-bottom">
+  <!-- Header -->
+  <header>
+    <div class="wrap nav" id="nav">
+      <div class="brand">ND Decorators</div>
+      <nav class="menu">
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#areas">Areas</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="menu-btn" aria-label="Menu" onclick="document.getElementById('nav').classList.toggle('open')">Menu</button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="wrap hero">
+    <h1>Professional Painting & Decorating</h1>
+    <p class="lead">Serving West Norwood & Streatham. Careful preparation, clean workmanship and premium finishes for homes across South London.</p>
+    <div class="cta">
+      <a class="btn primary" href="tel:+447577649245">Call 07577 649245</a>
+      <a class="btn" href="#contact">Get a free quote</a>
+    </div>
+  </section>
+
+  <div class="hairline"></div>
+
+  <!-- Services -->
+  <section id="services" class="wrap section">
+    <h2>Services</h2>
+    <div class="grid cols-2" style="margin-top: var(--space-4)">
+      <div class="tile">
+        <h3>Interior Painting</h3>
+        <p>Walls, ceilings, woodwork and metal. We prioritise preparation for a durable, refined finish.</p>
+      </div>
+      <div class="tile">
+        <h3>Wallpapering</h3>
+        <p>Feature walls to full rooms. Neat seams, crisp corners and precise pattern matching.</p>
+      </div>
+      <div class="tile">
+        <h3>Exterior Painting</h3>
+        <p>Masonry and woodwork protection for London weather. Clean, sympathetic restoration.</p>
+      </div>
+      <div class="tile">
+        <h3>Property Maintenance</h3>
+        <p>Touch-ups, filling, sanding and minor repairs to keep your home looking its best.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="hairline"></div>
+
+  <!-- Reviews (minimal) -->
+  <section id="reviews" class="wrap section">
+    <h2>Customer Reviews</h2>
+    <div class="grid cols-2" style="margin-top: var(--space-4)">
+      <blockquote class="tile">
+        <p>“Immaculate finish and great communication. The prep made all the difference.”</p>
+        <p style="margin-top: var(--space-2); color:var(--muted)">— Z.M.</p>
+      </blockquote>
+      <blockquote class="tile">
+        <p>“Reliable, tidy and on time. Would happily recommend to friends and neighbours.”</p>
+        <p style="margin-top: var(--space-2); color:var(--muted)">— L.P.</p>
+      </blockquote>
+    </div>
+  </section>
+
+  <div class="hairline"></div>
+
+  <!-- About -->
+  <section id="about" class="wrap section">
+    <h2>About</h2>
+    <div class="grid cols-3" style="margin-top: var(--space-4)">
+      <div class="tile">
+        <h3>30+ Years</h3>
+        <p>Decades of experience across South London homes.</p>
+      </div>
+      <div class="tile">
+        <h3>Attention to Detail</h3>
+        <p>Preparation-first approach for crisp lines and lasting results.</p>
+      </div>
+      <div class="tile">
+        <h3>Local & Trusted</h3>
+        <p>Small, independent business built on recommendations.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="hairline"></div>
+
+  <!-- Areas -->
+  <section id="areas" class="wrap section">
+    <h2>Service Areas</h2>
+    <div class="pills" style="margin-top: var(--space-3)">
+      <span class="pill">West Norwood</span>
+      <span class="pill">Streatham</span>
+      <span class="pill">Streatham Hill</span>
+      <span class="pill">Tulse Hill</span>
+      <span class="pill">Upper Norwood</span>
+      <span class="pill">Crystal Palace</span>
+      <span class="pill">Dulwich</span>
+      <span class="pill">Herne Hill</span>
+    </div>
+  </section>
+
+  <div class="hairline"></div>
+
+  <!-- Contact -->
+  <section id="contact" class="wrap section">
+    <h2>Contact</h2>
+    <div class="tile" style="margin-top: var(--space-3)">
+      <p>For a free, no-obligation quotation, get in touch:</p>
+      <p style="margin-top: var(--space-2)"><strong>Phone:</strong> <a href="tel:+447577649245">07577 649245</a></p>
+      <p><strong>Hours:</strong> Mon–Fri 8:00–18:00 · Sat 9:00–16:00</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">© <span id="y"></span> ND Decorators</div>
+  </footer>
+
+  <!-- Mobile sticky call -->
+  <a class="callbar" href="tel:+447577649245" aria-label="Call ND Decorators">Call 07577 649245</a>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
