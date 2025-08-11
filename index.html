@@ -65,6 +65,7 @@ body{
   transition:opacity .5s ease;
 }
 body.ready{ opacity:1 }
+body.menu-open{ overflow:hidden }
 a{ color:var(--link); text-decoration:none }
 a:hover{ text-decoration:underline }
 .wrap{ max-width:var(--maxw); margin-inline:auto; padding-inline: clamp(16px, 4vw, 28px) }
@@ -85,7 +86,7 @@ h3{ font-size:var(--fs-h3); font-weight:700 }
    Header / Nav
    ================= */
 header{
-  position:sticky; top:0; z-index:20;
+  position:sticky; top:0; z-index:30;
   height:var(--header-h);
   backdrop-filter: saturate(180%) blur(14px);
   background: color-mix(in oklab, var(--bg), transparent 20%);
@@ -102,16 +103,31 @@ header.scrolled{ box-shadow: 0 10px 30px -20px rgba(0,0,0,.25); background: colo
   content:""; position:absolute; left:0; right:0; bottom:-8px; height:2px; background: var(--primary);
   opacity:.3;
 }
-.menu-btn{ display:none }
+/* hamburger button */
+.hamburger{ display:none; position:relative; width:44px; height:36px; border:1px solid var(--line); border-radius:10px; background:transparent; cursor:pointer }
+.hamburger .bar{ position:absolute; left:10px; right:10px; height:2px; background:var(--ink); transition:transform .35s ease, opacity .35s ease, top .35s ease }
+.hamburger .bar:nth-child(1){ top:11px }
+.hamburger .bar:nth-child(2){ top:17px }
+.hamburger .bar:nth-child(3){ top:23px }
+body.menu-open .hamburger .bar:nth-child(1){ top:17px; transform:rotate(45deg) }
+body.menu-open .hamburger .bar:nth-child(2){ opacity:0 }
+body.menu-open .hamburger .bar:nth-child(3){ top:17px; transform:rotate(-45deg) }
 @media (max-width: 880px){
   .menu ul{ display:none }
-  .menu-btn{ display:inline-block; border:1px solid var(--line); background:transparent; border-radius:10px; padding:8px 10px }
-  .nav.open .menu ul{
-    position:absolute; left:20px; right:20px; top:calc(var(--header-h) - 2px);
-    display:flex; flex-direction:column; gap:8px; padding:12px;
-    background:var(--bg); border:1px solid var(--line); border-radius:12px;
-  }
+  .hamburger{ display:inline-block }
 }
+
+/* =================
+   Mobile overlay menu
+   ================= */
+.nav-overlay{ position:fixed; inset:0; z-index:25; pointer-events:none; opacity:0; transition:opacity .35s ease }
+.nav-overlay::before{ content:""; position:absolute; inset:0; background:color-mix(in oklab, var(--ink), transparent 74%); backdrop-filter: blur(10px) }
+.overlay-inner{ position:absolute; inset:0; display:grid; place-items:center; padding:24px }
+.overlay-panel{ width:min(92vw, 520px); background:var(--bg); border:1px solid var(--line); border-radius:18px; padding:32px; box-shadow:0 30px 80px -30px rgba(0,0,0,.35) }
+.overlay-panel ul{ list-style:none; margin:0; padding:0; display:grid; gap:18px; text-align:center }
+.overlay-panel a{ display:block; color:var(--ink); font-family:'Crimson Text', ui-serif, Georgia, 'Times New Roman', serif; font-weight:700; font-size:clamp(1.35rem, 3.4vw, 1.8rem) }
+.overlay-panel a:hover{ text-decoration:underline }
+body.menu-open .nav-overlay{ pointer-events:auto; opacity:1 }
 
 /* =================
    Hero (editorial)
@@ -191,9 +207,9 @@ header.scrolled{ box-shadow: 0 10px 30px -20px rgba(0,0,0,.25); background: colo
 .reviews-grid{ display:grid; gap: var(--s4); grid-template-columns:1fr }
 @media (min-width:1000px){ .reviews-grid{ grid-template-columns:1fr 1fr } }
 .review-card{ padding: var(--s4); border:1px solid var(--line); border-radius: var(--radius); background: color-mix(in oklab, var(--bg), #000 0%) }
-.review-card .quote{ font-size: clamp(0.98rem, 1.2vw, 1.125rem); line-height:1.6; color: var(--ink); margin-top: var(--s3) }
+.review-card .quote{ font-size: clamp(0.96rem, 1.05vw, 1.06rem); line-height:1.62; color: var(--ink); margin-top: var(--s3) }
 .person{ display:flex; align-items:center; gap: var(--s3); margin-top: var(--s4) }
-.avatar{ width:48px; height:48px; border-radius:50%; background: var(--primary); color: var(--bg); display:grid; place-items:center; font-weight:800 }
+.avatar{ width:44px; height:44px; border-radius:50%; background: var(--primary); color: var(--bg); display:grid; place-items:center; font-weight:800 }
 .name{ font-weight:700; color:var(--ink) }
 .year{ color:var(--muted) }
 
@@ -204,7 +220,6 @@ header.scrolled{ box-shadow: 0 10px 30px -20px rgba(0,0,0,.25); background: colo
   font-size:var(--fs-h2);
   margin-bottom:var(--s5);
 }
-.about-title em{ font-style:italic }
 .about-title em{ font-style:italic }
 .about .copy{ margin:0 auto }
 .about .copy p{ margin-bottom:var(--s4) }
@@ -261,6 +276,17 @@ footer{ padding-block: var(--s6); color:var(--muted); text-align:center }
   .reveal, .reveal-slow{ opacity:1 !important; transform:none !important; transition:none !important }
   body{ transition:none !important }
 }
+
+/* =========================
+   Loader (3-dot pulse)
+   ========================= */
+.loader{ position:fixed; inset:0; z-index:40; display:grid; place-items:center; background:var(--bg); transition:opacity .4s ease, visibility .4s ease }
+.loader.hidden{ opacity:0; visibility:hidden }
+.dots{ display:flex; gap:10px }
+.dots span{ width:10px; height:10px; border-radius:50%; background:var(--primary); display:block; animation:pulse 1.2s infinite ease-in-out }
+.dots span:nth-child(2){ animation-delay:.15s }
+.dots span:nth-child(3){ animation-delay:.3s }
+@keyframes pulse{ 0%, 80%, 100%{ transform:scale(0.6); opacity:.4 } 40%{ transform:scale(1); opacity:1 } }
 </style>
 </head>
 <body class="pad-bottom">
@@ -268,7 +294,7 @@ footer{ padding-block: var(--s6); color:var(--muted); text-align:center }
   <header id="head">
     <div class="wrap nav" id="nav">
       <div class="brand">ND Decorators</div>
-      <nav class="menu">
+      <nav class="menu" aria-label="Primary">
         <ul>
           <li><a href="#services">Services</a></li>
           <li><a href="#reviews">Reviews</a></li>
@@ -277,9 +303,33 @@ footer{ padding-block: var(--s6); color:var(--muted); text-align:center }
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
-      <button class="menu-btn" aria-label="Menu" onclick="document.getElementById('nav').classList.toggle('open')">Menu</button>
+      <button id="burger" class="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span class="bar" aria-hidden="true"></span>
+        <span class="bar" aria-hidden="true"></span>
+        <span class="bar" aria-hidden="true"></span>
+      </button>
     </div>
   </header>
+
+  <!-- Mobile overlay menu -->
+  <div id="navOverlay" class="nav-overlay" aria-hidden="true">
+    <div class="overlay-inner" role="dialog" aria-modal="true" aria-label="Navigation">
+      <div class="overlay-panel">
+        <ul>
+          <li><a class="overlay-link" href="#services">Services</a></li>
+          <li><a class="overlay-link" href="#reviews">Reviews</a></li>
+          <li><a class="overlay-link" href="#about">About</a></li>
+          <li><a class="overlay-link" href="#areas">Areas</a></li>
+          <li><a class="overlay-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div id="loader" class="loader" aria-hidden="true">
+    <div class="dots" aria-label="Loading" role="status"><span></span><span></span><span></span></div>
+  </div>
 
   <!-- Hero -->
   <section class="wrap hero" aria-labelledby="hero-title">
@@ -464,9 +514,24 @@ footer{ padding-block: var(--s6); color:var(--muted); text-align:center }
   <a class="callbar" href="tel:+447577649245" aria-label="Call ND Decorators">Call 07577 649245</a>
 
 <script>
-/* Page ready fade-in */
+/* Helper: close mobile menu */
+function closeMenu(){
+  document.body.classList.remove('menu-open');
+  const b = document.getElementById('burger');
+  b.setAttribute('aria-expanded','false');
+  document.getElementById('navOverlay').setAttribute('aria-hidden','true');
+}
+
+/* Page ready + loader */
 document.addEventListener('DOMContentLoaded', () => {
-  document.body.classList.add('ready');
+  // loader waits for fonts
+  Promise.all([
+    document.fonts ? document.fonts.ready : Promise.resolve(),
+    new Promise(r => setTimeout(r, 400))
+  ]).then(() => {
+    document.getElementById('loader').classList.add('hidden');
+    document.body.classList.add('ready');
+  });
 
   /* Sticky header subtle shadow on scroll */
   const head = document.getElementById('head');
@@ -479,20 +544,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }, {rootMargin:'-5% 0px -5% 0px', threshold: .05});
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  /* Active menu link highlight */
-  const links = [...document.querySelectorAll('.menu a')];
-  const sections = links
+  /* Active menu link highlight (both header + overlay) */
+  const allLinks = [...document.querySelectorAll('.menu a, .overlay-link')];
+  const sections = allLinks
+    .filter((v,i,a)=>a.findIndex(x=>x.getAttribute('href')===v.getAttribute('href'))===i)
     .map(a => document.querySelector(a.getAttribute('href')))
     .filter(Boolean);
 
   const navIO = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if(entry.isIntersecting){
-        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+        allLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
       }
     });
   }, {threshold: .5});
   sections.forEach(sec => navIO.observe(sec));
+
+  /* Hamburger / overlay interactions */
+  const burger = document.getElementById('burger');
+  const overlay = document.getElementById('navOverlay');
+  burger.addEventListener('click', () => {
+    const open = !document.body.classList.contains('menu-open');
+    document.body.classList.toggle('menu-open');
+    burger.setAttribute('aria-expanded', String(open));
+    overlay.setAttribute('aria-hidden', String(!open));
+  });
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) closeMenu(); });
+  document.querySelectorAll('.overlay-link').forEach(a => a.addEventListener('click', closeMenu));
+  window.addEventListener('keydown', (e) => { if(e.key==='Escape') closeMenu(); });
 
   /* Footer year */
   document.getElementById('y').textContent = new Date().getFullYear();
