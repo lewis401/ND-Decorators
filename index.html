@@ -1,301 +1,132 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ND Decorators — Painting & Decorating</title>
-<meta name="description" content="Interior & exterior painting, decorating and property maintenance in West Norwood, Streatham and across South London." />
-<meta name="color-scheme" content="light dark" />
-<meta name="robots" content="noindex,nofollow" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ND Decorators — Professional Painting & Decorating</title>
+  <meta name="description" content="High quality interior & exterior painting, decorating and maintenance for homes in West Norwood, Streatham and surrounding areas." />
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#F8FAFC;         /* page background */
+      --panel:#FFFFFF;      /* cards */
+      --ink:#111827;        /* primary text */
+      --muted:#6B7280;      /* secondary text */
+      --brand:#48487F;      /* brand accent */
+      --brand-10:#48487f1a; /* brand soft */
+      --border:#E5E7EB;     /* neutral border */
+      --radius:16px;
+      --shadow:0 8px 28px rgba(17,24,39,.06);
+      --maxw:1100px;
+      --header-h:64px;
+    }
 
-<!-- Editorial serif for hero + section titles -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;padding-top:var(--header-h);background:var(--bg);color:var(--ink);font:17px/1.55 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;opacity:0;animation:fadeIn .5s ease .05s forwards}
+    @keyframes fadeIn{to{opacity:1}}
 
-<style>
-/* =========================
-   Design tokens (responsive)
-   ========================= */
-:root{
-  /* palette */
-  --bg: #fbfbfd;
-  --ink: #111827;
-  --muted: #6b7076;
-  --line: color-mix(in oklab, var(--ink), transparent 88%);
-  --link: #0a84ff;
-  --primary: #48487F;
+    /* Typography */
+    h1,h2{font-family:'Crimson Text', ui-serif, Georgia, 'Times New Roman', serif;font-weight:700;letter-spacing:.2px;margin:0 0 .55em;line-height:1.1}
+    h2{font-size:clamp(28px,3.8vw,48px);line-height:1.05}
+    h3{margin:.1rem 0 .35rem;font-size:1.12rem;font-weight:700}
 
-  /* layout */
-  --maxw: 1100px;
-  --radius: 14px;
-  --header-h: 64px;
+    .container{max-width:var(--maxw);margin-inline:auto;padding:0 20px}
 
-  /* responsive type scale */
-  --fs-body: clamp(1rem, 0.25vw + 0.95rem, 1.0625rem);
-  --fs-h1: clamp(2.4rem, 6.3vw, 4.75rem);   /* big but calm */
-  --fs-h2: clamp(1.6rem, 2.8vw, 2.2rem);
-  --fs-h3: clamp(1.05rem, 1.2vw, 1.125rem);
+    /* Section spacing – responsive and consistent */
+    .section{padding:clamp(80px,9vw,128px) 0}
+    .section h2{margin:0}
+    .section .lead{color:var(--muted);max-width:820px;margin:16px auto 44px;font-size:clamp(1.0625rem,1.2vw,1.3125rem)}
 
-  /* responsive spacing */
-  --s1: clamp(6px, 1vw, 10px);
-  --s2: clamp(10px, 1.4vw, 14px);
-  --s3: clamp(16px, 1.8vw, 20px);
-  --s4: clamp(24px, 2.4vw, 32px);
-  --s5: clamp(36px, 4vw, 48px);
-  --s6: clamp(56px, 6vw, 80px);
-  --s7: clamp(84px, 9vw, 120px);
-}
-@media (prefers-color-scheme: dark){
-  :root{ --bg:#0b0b0b; --ink:#f5f5f7; --muted:#a0a4aa; --line: color-mix(in oklab, var(--ink), transparent 86%) }
-}
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:.6rem;padding:0 18px;height:52px;border-radius:14px;font-weight:700;text-decoration:none}
+    .btn.primary{background:var(--brand);color:#fff;box-shadow:0 12px 24px var(--brand-10)}
+    .btn.outline{background:#fff;color:var(--brand);border:1px solid #DDE1F1}
+    .btn:hover{transform:translateY(-1px)}
 
-/* ===============
-   Base + resets
-   =============== */
-*{ box-sizing: border-box }
-html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth }
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--ink);
-  font: var(--fs-body)/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  letter-spacing:-0.01em;
-  opacity:0;                      /* page fade-in */
-  transition:opacity .5s ease;
-}
-body.ready{ opacity:1 }
-body.menu-open{ overflow:hidden }
-a{ color:var(--link); text-decoration:none }
-a:hover{ text-decoration:underline }
-.wrap{ max-width:var(--maxw); margin-inline:auto; padding-inline: clamp(16px, 4vw, 28px) }
-.section{ padding-block: var(--s6) }
-.hairline{ border-top:1px solid var(--line) }
-p{ margin:0 0 var(--s3); color:var(--muted) }
-h1,h2,h3{ margin:0 0 var(--s3); line-height:1.12; letter-spacing:-0.02em }
-h2{ font-size:var(--fs-h2); font-weight:700 }
-h3{ font-size:var(--fs-h3); font-weight:700 }
+    /* Header / Navbar */
+    header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,250,252,.86);backdrop-filter:saturate(180%) blur(10px)}
+    .nav{height:var(--header-h);display:flex;align-items:center;justify-content:space-between}
+    .brand{font-weight:800;letter-spacing:.02em}
+    nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0}
+    nav a{color:var(--ink);text-decoration:none;font-weight:600}
 
-/* Improve long-form measure */
-.lead, .about .copy{ margin:0 auto; max-width: 70ch }
+    /* active underline attached to bottom border */
+    .nav-rail{position:relative;height:2px;background:var(--border)}
+    .indicator{position:absolute;top:0;left:0;height:2px;background:#CBD5E1;width:52px;border-radius:2px;transition:transform .35s ease,width .35s ease;will-change:transform,width;z-index:1;pointer-events:none}
 
-/* Offset for sticky header when jumping to anchors */
-[id]{ scroll-margin-top: calc(var(--header-h) + 16px) }
+    /* Mobile menu */
+    .hamburger{display:none;position:relative;width:42px;height:42px;border:1px solid var(--border);border-radius:12px;background:#fff}
+    .hamburger span,.hamburger::before,.hamburger::after{content:"";position:absolute;left:9px;right:9px;height:2px;background:var(--ink);transition:.3s}
+    .hamburger span{top:20px}
+    .hamburger::before{top:12px}
+    .hamburger::after{top:28px}
+    .overlay{position:fixed;inset:0;background:rgba(17,24,39,.55);backdrop-filter:blur(2px);display:none;align-items:center;justify-content:center}
+    .overlay.open{display:flex}
+    .sheet{background:#fff;border-radius:20px;padding:28px 32px;min-width:78vw;box-shadow:var(--shadow)}
+    .sheet ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+    .sheet a{font-size:1.2rem;font-weight:700;color:var(--ink);text-decoration:none}
 
-/* =================
-   Header / Nav
-   ================= */
-header{
-  position:sticky; top:0; z-index:30;
-  height:var(--header-h);
-  backdrop-filter: saturate(180%) blur(14px);
-  background: color-mix(in oklab, var(--bg), transparent 20%);
-  border-bottom:1px solid var(--line);
-  transition: box-shadow .35s ease, background .35s ease, border-color .35s ease;
-}
-header.scrolled{ box-shadow: 0 10px 30px -20px rgba(0,0,0,.25); background: color-mix(in oklab, var(--bg), transparent 8%); }
-.nav{ height:var(--header-h); display:flex; align-items:center; justify-content:space-between }
-.brand{ font-weight:700; letter-spacing:-0.015em }
+    @media (max-width:900px){nav ul{display:none}.hamburger{display:inline-block}}
 
-.menu ul{ display:flex; gap: clamp(16px, 2.5vw, 28px); list-style:none; margin:0; padding:0 }
-.menu a{ color:var(--ink); opacity:.9; padding:8px 0; position:relative }
-.menu a.active::after{
-  content:""; position:absolute; left:0; right:0; bottom:-8px; height:2px; background: var(--primary);
-  opacity:.3;
-}
-/* hamburger button */
-.hamburger{ display:none; position:relative; width:44px; height:36px; border:1px solid var(--line); border-radius:10px; background:transparent; cursor:pointer }
-.hamburger .bar{ position:absolute; left:10px; right:10px; height:2px; background:var(--ink); transition:transform .35s ease, opacity .35s ease, top .35s ease }
-.hamburger .bar:nth-child(1){ top:11px }
-.hamburger .bar:nth-child(2){ top:17px }
-.hamburger .bar:nth-child(3){ top:23px }
-body.menu-open .hamburger .bar:nth-child(1){ top:17px; transform:rotate(45deg) }
-body.menu-open .hamburger .bar:nth-child(2){ opacity:0 }
-body.menu-open .hamburger .bar:nth-child(3){ top:17px; transform:rotate(-45deg) }
-@media (max-width: 880px){
-  .menu ul{ display:none }
-  .hamburger{ display:inline-block }
-}
+    /* Hero */
+    .hero{min-height:calc(100vh - var(--header-h));display:flex;align-items:center;padding:clamp(96px,11vw,140px) 0}
+    .hero .container{max-width:900px;text-align:center;display:flex;flex-direction:column;align-items:center}
+    .hero h1{font-size:clamp(36px,6vw,64px)}
+    .hero .sub{margin-top:.8rem}
+    .hero .actions{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+    .serif-italic{font-style:italic}
 
-/* =================
-   Mobile overlay menu
-   ================= */
-.nav-overlay{ position:fixed; inset:0; z-index:25; pointer-events:none; opacity:0; transition:opacity .35s ease }
-.nav-overlay::before{ content:""; position:absolute; inset:0; background:color-mix(in oklab, var(--ink), transparent 74%); backdrop-filter: blur(10px) }
-.overlay-inner{ position:absolute; inset:0; display:grid; place-items:center; padding:24px }
-.overlay-panel{ width:min(92vw, 520px); background:var(--bg); border:1px solid var(--line); border-radius:18px; padding:32px; box-shadow:0 30px 80px -30px rgba(0,0,0,.35) }
-.overlay-panel ul{ list-style:none; margin:0; padding:0; display:grid; gap:18px; text-align:center }
-.overlay-panel a{ display:block; color:var(--ink); font-family:'Crimson Text', ui-serif, Georgia, 'Times New Roman', serif; font-weight:700; font-size:clamp(1.35rem, 3.4vw, 1.8rem) }
-.overlay-panel a:hover{ text-decoration:underline }
-body.menu-open .nav-overlay{ pointer-events:auto; opacity:1 }
+    /* Services */
+    .services-wrap{background:#F9FAFB;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .services{display:grid;gap:24px;margin-top:48px}
+    .service{background:#fff;border:1px solid var(--border);border-radius:16px;padding:clamp(18px,2.2vw,28px)}
+    .service p{color:var(--muted);margin:0}
+    @media (min-width:760px){.services{grid-template-columns:repeat(2,1fr)}}
 
-/* =================
-   Hero (editorial)
-   ================= */
-.hero{ padding-block: clamp(88px, 16vh, 180px) var(--s5); display:grid; place-items:center }
-.hero-inner{ width:min(100%, var(--maxw)); margin-inline:auto; text-align:center }
-.hero-title{
-  font-family:'Crimson Text', ui-serif, Georgia, "Times New Roman", serif;
-  font-size:var(--fs-h1);
-  font-weight:400;
-  color:var(--ink);
-  line-height:1.04;
-  letter-spacing:0;
-  margin:0 0 var(--s4);
-  max-width: 22ch;
-  margin-inline: auto;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-.hero-title .line{ display:inline-block }
-.hero-title .line + .line{ margin-top:.18em }
-.hero-title .line--underline{
-  text-decoration:underline;
-  text-decoration-thickness:.12em;
-  text-underline-offset:.25em;
-}
-.hero-title em{ font-style:italic } .hero-title .amp{ position:relative; top:-0.06em; display:inline-block }
-.lead{ margin-top:var(--s2); max-width:68ch; margin-inline:auto }
-.cta{ display:flex; gap:var(--s3); justify-content:center; flex-wrap:wrap; margin-top: var(--s4) }
-.btn{
-  display:inline-flex; align-items:center; gap:.55rem;
-  padding:12px 16px; border-radius:12px; font-weight:600;
-  border:1px solid var(--line); color:var(--ink);
-  background: color-mix(in oklab, var(--bg), #000 0%);
-  transform: translateY(0); transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
-}
-.btn.primary{ background:var(--primary); color:var(--bg); border-color:var(--primary) }
-.btn:hover{ transform: translateY(-1px); box-shadow:0 10px 18px -14px rgba(0,0,0,.4) }
-.btn:active{ transform: translateY(0) }
-.btn:focus-visible{ outline:2px solid var(--link); outline-offset:2px }
+    /* Reviews */
+    .reviews{display:grid;gap:24px;margin-top:48px}
+    .review{background:#fff;border:1px solid var(--border);border-radius:18px;padding:clamp(18px,2.2vw,26px)}
+    .stars{color:#F5B200;letter-spacing:1px}
+    .who{display:flex;align-items:center;gap:12px;margin-top:20px}
+    .avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--brand);color:#fff;font-weight:800}
+    .review p{margin:.4rem 0 0;color:#374151}
+    @media(min-width:900px){.reviews{grid-template-columns:repeat(2,1fr)}}
 
-/* =================
-   Content blocks
-   ================= */
-.grid{ display:grid; gap: var(--s4) }
-.grid.cols-2{ grid-template-columns:1fr }
-.grid.cols-3{ grid-template-columns:1fr }
-@media (min-width: 900px){
-  .grid.cols-2{ grid-template-columns:1fr 1fr }
-  .grid.cols-3{ grid-template-columns: repeat(3,1fr) }
-}
-.tile{
-  padding:var(--s4);
-  border:1px solid var(--line); border-radius:var(--radius);
-  background: color-mix(in oklab, var(--bg), #000 0%);
-  transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease;
-}
-.tile:hover{ border-color: color-mix(in oklab, var(--ink), transparent 75%); transform:none; box-shadow:none }
+    /* About */
+    .about .card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:clamp(24px,3vw,36px)}
+    .stats{display:grid;gap:clamp(12px,2vw,20px);grid-template-columns:repeat(3,1fr);text-align:center;margin-top:clamp(16px,2vw,22px)}
+    .stat .num{font-family:'Crimson Text', ui-serif;font-weight:700;font-size:clamp(1.4rem,2.8vw,1.9rem)}
 
-/* Services (muted panel) */
-.section-muted{ background:#F9FAFB }
-.section-muted .wrap{ padding-block: var(--s6) }
-.section-title{ font-family:'Crimson Text', ui-serif, Georgia, 'Times New Roman', serif; font-weight:700; text-align:center; font-size:var(--fs-h2); margin-bottom: var(--s2) }
-.section-lead{ text-align:center; color:var(--muted); max-width:70ch; margin: 0 auto var(--s5) }
-.services-grid{ display:grid; gap: var(--s5); grid-template-columns:1fr }
-@media (min-width:900px){ .services-grid{ grid-template-columns:1fr 1fr } }
-.service h3{ font-family:'Crimson Text', ui-serif, Georgia, 'Times New Roman', serif; font-weight:700; font-size: clamp(1.25rem, 2vw, 1.5rem); margin-bottom: var(--s2); color: var(--ink) }
-.service p{ color: var(--muted) }
+    /* Areas */
+    .chips{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:20px}
+    .chip{background:#F3F4F6;border:1px solid var(--border);padding:.6rem 1.1rem;border-radius:12px;font-weight:700}
 
-/* Reviews (cards) */
-.reviews-head{ text-align:center; margin-bottom: var(--s5) }
-.reviews-head .rating-note{ color:var(--ink); margin-bottom: .2rem }
-.reviews-head .rating-sub{ color:var(--muted) }
-.stars{ color:#F3C623; letter-spacing:.12em; font-size:.95rem }
-.reviews-head .stars{ font-size:1.1rem; margin:.35rem 0 .15rem }
-.reviews-grid{ display:grid; gap: var(--s4); grid-template-columns:1fr }
-@media (min-width:1000px){ .reviews-grid{ grid-template-columns:1fr 1fr } }
-.review-card{ padding: var(--s4); border:1px solid var(--line); border-radius: var(--radius); background: color-mix(in oklab, var(--bg), #000 0%) }
-.review-card .quote{ font-size: clamp(0.96rem, 1.05vw, 1.06rem); line-height:1.62; color: var(--ink); margin-top: var(--s3) }
-.person{ display:flex; align-items:center; gap: var(--s3); margin-top: var(--s4) }
-.avatar{ width:44px; height:44px; border-radius:50%; background: var(--primary); color: var(--bg); display:grid; place-items:center; font-weight:800 }
-.name{ font-weight:700; color:var(--ink) }
-.year{ color:var(--muted) }
+    /* Contact */
+    .contact .panel{background:#fff;border:1px solid var(--border);border-radius:18px;padding:clamp(20px,3vw,32px);display:grid;gap:clamp(8px,1.4vw,14px);justify-items:center}
 
-/* About (editorial) */
-.about-title{
-  font-family:'Crimson Text', ui-serif, Georgia, 'Times New Roman', serif;
-  font-weight:700; text-align:center;
-  font-size:var(--fs-h2);
-  margin-bottom:var(--s5);
-}
-.about-title em{ font-style:italic }
-.about .copy{ margin:0 auto }
-.about .copy p{ margin-bottom:var(--s4) }
-
-.about-callout{
-  font-family:'Crimson Text', ui-serif, Georgia, 'Times New Roman', serif;
-  font-size: clamp(1rem, 1.8vw, 1.15rem);
-  line-height:1.45; text-align:center; color:var(--ink);
-  margin: 0 auto var(--s5); max-width: 62ch;
-}
-
-/* Metrics — purely typographic */
-.metrics{
-  display:grid; gap: var(--s5);
-  grid-template-columns: repeat(3,1fr);
-  max-width: 920px; margin: var(--s5) auto 0; text-align:center;
-}
-.metric .num{
-  font-family:'Crimson Text', ui-serif, Georgia, 'Times New Roman', serif;
-  font-weight:700; font-size: clamp(1.6rem, 4.2vw, 2.4rem);
-  color:var(--ink); margin-bottom:var(--s2)
-}
-.metric .label{ color:var(--muted); font-weight:600 }
-@media (max-width: 820px){ .metrics{ grid-template-columns:1fr; gap:var(--s4) } }
-
-/* Areas pills */
-.pills{ display:flex; flex-wrap:wrap; gap:10px }
-.pill{ padding:8px 12px; border:1px solid var(--line); border-radius:999px; font-weight:600 }
-
-/* Footer */
-footer{ padding-block: var(--s6); color:var(--muted); text-align:center }
-
-/* Mobile sticky call button */
-.callbar{
-  position: fixed; inset: auto 16px 16px; display:none;
-  background: var(--primary); color: var(--bg);
-  border-radius: 999px; padding: 12px 16px; text-align:center; font-weight:700;
-  box-shadow: 0 16px 40px -20px rgba(0,0,0,.5);
-}
-.callbar:active{ transform: translateY(1px) }
-@media (max-width: 860px){ .callbar{ display:block } }
-
-/* Ensure bottom space so callbar never covers content */
-@media (max-width: 860px){ .pad-bottom{ padding-bottom:84px } }
-
-/* =========================
-   Subtle reveal animations
-   ========================= */
-.reveal{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease }
-.reveal.in{ opacity:1; transform:translateY(0) }
-.reveal-slow{ transition-duration: .9s }
-@media (prefers-reduced-motion: reduce){
-  html{ scroll-behavior:auto }
-  .reveal, .reveal-slow{ opacity:1 !important; transform:none !important; transition:none !important }
-  body{ transition:none !important }
-}
-
-/* =========================
-   Loader (3-dot pulse)
-   ========================= */
-.loader{ position:fixed; inset:0; z-index:40; display:grid; place-items:center; background:var(--bg); transition:opacity .4s ease, visibility .4s ease }
-.loader.hidden{ opacity:0; visibility:hidden }
-.dots{ display:flex; gap:10px }
-.dots span{ width:10px; height:10px; border-radius:50%; background:var(--primary); display:block; animation:pulse 1.2s infinite ease-in-out }
-.dots span:nth-child(2){ animation-delay:.15s }
-.dots span:nth-child(3){ animation-delay:.3s }
-@keyframes pulse{ 0%, 80%, 100%{ transform:scale(0.6); opacity:.4 } 40%{ transform:scale(1); opacity:1 } }
+    footer{padding:48px 0;color:#6B7280;text-align:center}
+/* Contact-specific tightening */
+#contact.section{padding:clamp(56px,6vw,88px) 0}
+.contact h2{margin-bottom:.25em}
+.contact .panel .lead{margin:8px auto 12px}
+.contact .chips{margin-top:6px}
+  /* Smooth scrolling + offset for sticky header */
+html{ scroll-behavior:smooth }
+section[id]{ scroll-margin-top: calc(var(--header-h) + 12px) }
+/* Active nav link state (subtle) */
+nav a.active{ opacity:1 }
 </style>
 </head>
-<body class="pad-bottom">
-  <!-- Header -->
-  <header id="head">
-    <div class="wrap nav" id="nav">
+<body>
+  <header>
+    <div class="container nav">
       <div class="brand">ND Decorators</div>
-      <nav class="menu" aria-label="Primary">
-        <ul>
+      <nav>
+        <ul id="navLinks">
           <li><a href="#services">Services</a></li>
           <li><a href="#reviews">Reviews</a></li>
           <li><a href="#about">About</a></li>
@@ -303,279 +134,158 @@ footer{ padding-block: var(--s6); color:var(--muted); text-align:center }
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
-      <button id="burger" class="hamburger" aria-label="Open menu" aria-expanded="false">
-        <span class="bar" aria-hidden="true"></span>
-        <span class="bar" aria-hidden="true"></span>
-        <span class="bar" aria-hidden="true"></span>
-      </button>
+      <button class="hamburger" id="hambtn" aria-label="Open menu"><span></span></button>
     </div>
+    <div class="nav-rail"><div class="indicator" id="indicator"></div></div>
   </header>
 
-  <!-- Mobile overlay menu -->
-  <div id="navOverlay" class="nav-overlay" aria-hidden="true">
-    <div class="overlay-inner" role="dialog" aria-modal="true" aria-label="Navigation">
-      <div class="overlay-panel">
-        <ul>
-          <li><a class="overlay-link" href="#services">Services</a></li>
-          <li><a class="overlay-link" href="#reviews">Reviews</a></li>
-          <li><a class="overlay-link" href="#about">About</a></li>
-          <li><a class="overlay-link" href="#areas">Areas</a></li>
-          <li><a class="overlay-link" href="#contact">Contact</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- Loader -->
-  <div id="loader" class="loader" aria-hidden="true">
-    <div class="dots" aria-label="Loading" role="status"><span></span><span></span><span></span></div>
-  </div>
-
-  <!-- Hero -->
-  <section class="wrap hero" aria-labelledby="hero-title">
-    <div class="hero-inner">
-      <h1 id="hero-title" class="hero-title reveal">
-        <span class="line">Professional Painting</span>
-        <span class="line"><span class="amp">&amp;</span> <em>Decorating</em></span>
-      </h1>
-
-      <p class="lead reveal">Serving West Norwood &amp; Streatham</p>
-      <p class="lead reveal">High quality interior and exterior painting, decorating and maintenance services<br>for residential properties throughout South London.</p>
-
-      <div class="cta reveal">
-        <a class="btn primary" href="tel:+447577649245">Call 07577 649245</a>
-        <a class="btn" href="#contact">Get Free Quote</a>
+  <section class="hero section">
+    <div class="container" style="text-align:center">
+      <h1>Professional Painting <br><span class="serif-italic">&amp; Decorating</span></h1>
+      <p class="lead sub">Serving West Norwood & Streatham. High quality interior and exterior painting, decorating and property maintenance for residential homes throughout South London.</p>
+      <div class="actions">
+        <a class="btn primary" href="tel:+447577649245">📞&nbsp; Call 07577 649245</a>
+        <a class="btn outline" href="#contact">Get Free Quote</a>
       </div>
     </div>
   </section>
 
-  <div class="hairline"></div>
+  <section id="services" class="services-wrap section">
+    <div class="container">
+      <h2 style="text-align:center">Services</h2>
+      <p class="lead" style="text-align:center">A complete range of painting & decorating services for homes in West Norwood, Streatham and surrounding areas.</p>
+      <div class="services">
+        <article class="service"><h3>Interior Painting</h3><p>Walls, ceilings, woodwork and trim — careful preparation and quality paints for a premium finish.</p></article>
+        <article class="service"><h3>Wallpapering</h3><p>From feature walls to entire rooms with precise pattern matching and clean edges.</p></article>
+        <article class="service"><h3>Exterior Painting</h3><p>Frontages, masonry and woodwork with protection for long‑lasting results.</p></article>
+        <article class="service"><h3>Property Maintenance</h3><p>Touch‑ups, minor repairs, filling and sanding to keep your property looking its best.</p></article>
+      </div>
+    </div>
+  </section>
 
-  <!-- Services -->
-  <section id="services" class="section section-muted" aria-labelledby="services-title">
-    <div class="wrap">
-      <h2 id="services-title" class="section-title reveal">Services</h2>
-      <p class="section-lead reveal">We provide a complete range of painting and decorating services for homes throughout West Norwood, Streatham and surrounding areas.</p>
+  <section id="reviews" class="section container">
+    <h2 style="text-align:center">Customer Reviews</h2>
+    <div class="reviews">
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p>“We had Nick do a kitchen refresh. The kitchen is now looking really clean and bright. This is the second time we have used Nick. Once again I would highly recommend this company.”</p>
+        <div class="who"><div class="avatar">MB</div><div><strong>Mary Burke</strong><div class="muted">2024</div></div></div>
+      </div>
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p>“I have used Nick over the years for both internal and external work. Recently he renovated my loft extension — beautiful job.”</p>
+        <div class="who"><div class="avatar">SV</div><div><strong>Susie Valenzuela</strong><div class="muted">2024</div></div></div>
+      </div>
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p>“Recommended by a friend — very easy to communicate with, highly skilled. We will be using him again for future jobs. Thanks again Nick.”</p>
+        <div class="who"><div class="avatar">LJ</div><div><strong>L. James</strong><div class="muted">2025</div></div></div>
+      </div>
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p>“Thorough inspection and a fair quotation for decorating 3 rooms. Very impressed with the job — neat, tidy and done within 3/4 days.”</p>
+        <div class="who"><div class="avatar">ZM</div><div><strong>Zipo Mangaliso</strong><div class="muted">2025</div></div></div>
+      </div>
+    </div>
+  </section>
 
-      <div class="services-grid">
-        <div class="service reveal">
-          <h3>Interior Painting</h3>
-          <p>Complete interior painting services including walls, ceilings, woodwork, and trim. We use only premium quality paints and take pride in our preparation and finish.</p>
-        </div>
-        <div class="service reveal">
-          <h3>Wallpapering</h3>
-          <p>Expert wallpaper hanging and removal services. From feature walls to complete rooms, we ensure perfect pattern matching and clean edges.</p>
-        </div>
-        <div class="service reveal">
-          <h3>Exterior Painting</h3>
-          <p>Protect and enhance your property with our exterior painting services. We handle all aspects from surface preparation to final coating using weather‑resistant materials.</p>
-        </div>
-        <div class="service reveal">
-          <h3>Property Maintenance</h3>
-          <p>General decorating maintenance including touch‑ups, minor repairs, filling and sanding. Keeping your property looking its best year round.</p>
+  <section id="about" class="section about">
+    <div class="container">
+      <div class="card">
+        <h2 style="text-align:center">About <span class="serif-italic">ND Decorators</span></h2>
+        <p class="lead" style="text-align:center">N D Decorators has been providing professional painting and decorating services to homeowners in West Norwood, Streatham and surrounding areas for over 30 years.</p>
+        <p class="lead" style="text-align:center">Professional Painting &amp; Decorating Services. With over 30 years’ experience, we cover all aspects of the trade — interior &amp; exterior, large projects or small. We respect your property and keep you informed throughout works, ensuring peace of mind.</p>
+        <div class="stats">
+          <div class="stat"><div class="num">30+</div><div>Years Experience</div></div>
+          <div class="stat"><div class="num">100%</div><div>Satisfaction Guarantee</div></div>
+          <div class="stat"><div class="num">Local</div><div>South London Business</div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="hairline"></div>
-
-  <!-- Reviews -->
-  <section id="reviews" class="section wrap reviews">
-    <div class="reviews-head reveal">
-      <h2>Customer Reviews</h2>
-      <div class="stars" aria-label="Rating: 5.0 out of 5" role="img">★★★★★</div>
-      <div class="rating-note"><strong>5.0 out of 5</strong></div>
-      <p class="rating-sub">Based on reviews from our satisfied customers</p>
+  <section id="areas" class="section container">
+    <h2 style="text-align:center">Service Areas</h2>
+    <p class="lead" style="text-align:center">Professional painting and decorating throughout South London</p>
+    <div class="chips">
+      <span class="chip">West Norwood</span>
+      <span class="chip">Streatham</span>
+      <span class="chip">Streatham Hill</span>
+      <span class="chip">Tulse Hill</span>
+      <span class="chip">Crystal Palace</span>
+      <span class="chip">Upper Norwood</span>
+      <span class="chip">South Norwood</span>
+      <span class="chip">Dulwich</span>
+      <span class="chip">Herne Hill</span>
     </div>
-
-    <div class="reviews-grid">
-      <article class="review-card reveal">
-        <div class="stars" aria-hidden="true">★★★★★</div>
-        <p class="quote">"We had Nick do a kitchen refresh. Ceiling next to the extractor fan was marked. We had some damp on a wall which Nick has treated for us. The kitchen is now looking really clean and bright. This is the second time we have used Nick. Once again I would highly recommend this company."</p>
-        <div class="person">
-          <div class="avatar" aria-hidden="true">MB</div>
-          <div>
-            <div class="name">Mary Burke</div>
-            <div class="year">2024</div>
-          </div>
-        </div>
-      </article>
-
-      <article class="review-card reveal">
-        <div class="stars" aria-hidden="true">★★★★★</div>
-        <p class="quote">"I have used Nick over the years for both Internal and External work. Recently he has just renovated my loft extension and as always has done a beautiful job. Thanks Nick. Highly recommend your work."</p>
-        <div class="person">
-          <div class="avatar" aria-hidden="true">SV</div>
-          <div>
-            <div class="name">Susie Valenzuela</div>
-            <div class="year">2024</div>
-          </div>
-        </div>
-      </article>
-
-      <article class="review-card reveal">
-        <div class="stars" aria-hidden="true">★★★★★</div>
-        <p class="quote">"Nick came recommended by a friend for good quality painting and decorating in South East London... and he lived up to the praise. Very easy to communicate with, very knowledge and very skilled in his work. Nick did an amazing job with our bathroom and we will be using him again for any future jobs. Thanks again Nick."</p>
-        <div class="person">
-          <div class="avatar" aria-hidden="true">LJ</div>
-          <div>
-            <div class="name">L.James</div>
-            <div class="year">2025</div>
-          </div>
-        </div>
-      </article>
-
-      <article class="review-card reveal">
-        <div class="stars" aria-hidden="true">★★★★★</div>
-        <p class="quote">"Amazing service from the start from N D Decorators, Nick was helpful and friendly on the phone, came in and done a thorough inspection then provided a fair and reasonable quotation for decorating 3 rooms in my flat. Was very impressed by the job done even, all very neat and crucially done within 3/4 days. I couldn't have asked for a better experience, I would use his services again at a heartbeat and I'd recommend everyone in south London to do so."</p>
-        <div class="person">
-          <div class="avatar" aria-hidden="true">ZM</div>
-          <div>
-            <div class="name">Zipo Mangaliso</div>
-            <div class="year">2025</div>
-          </div>
-        </div>
-      </article>
-    </div>
+    <p class="lead" style="text-align:center;max-width:820px">We provide professional painting and decorating services throughout these South London areas. If your location isn't listed, please get in touch as we may still be able to help.</p>
   </section>
 
-  <div class="hairline"></div>
-
-  <!-- About -->
-  <section id="about" class="wrap section about" aria-labelledby="about-title">
-    <h2 id="about-title" class="about-title reveal">
-      About <em>N D Decorators</em>
-    </h2>
-
-    <p class="about-callout reveal">
-      Professional Painting &amp; Decorating Services. With Over 30 Years Experience,We Cover All Aspects Of The Trade.
-      Be It Interior Or Exterior, Large Projects Or Small,We Are Here To Help Achieve The Look You Wish For.
-      Respecting Your Property And Keeping You Informed Throughout Works Ensuring Your Peace Of Mind.
-    </p>
-
-    <div class="copy reveal">
-      <p>N D Decorators has been providing professional painting and decorating services to homeowners in West Norwood, Streatham and surrounding areas for over 30 years.</p>
-      <p>We are a small, local business that takes pride in delivering high quality workmanship and excellent customer service. Every project, whether large or small, receives the same attention to detail and professional approach.</p>
-      <p>Our services include interior and exterior painting, wallpaper hanging, and general property maintenance. We use only quality materials and take the time to properly prepare all surfaces to ensure a long-lasting finish.</p>
-      <p>We are fully insured and provide free, no-obligation quotations. All work is guaranteed and we always leave your property clean and tidy.</p>
-    </div>
-
-    <div class="metrics">
-      <div class="metric reveal">
-        <div class="num">30+</div>
-        <div class="label">Years Experience</div>
-      </div>
-      <div class="metric reveal">
-        <div class="num">100%</div>
-        <div class="label">Satisfaction Guarantee</div>
-      </div>
-      <div class="metric reveal">
-        <div class="num">Local</div>
-        <div class="label">South London Business</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="hairline"></div>
-
-  <!-- Areas -->
-  <section id="areas" class="wrap section">
-    <h2 class="reveal">Service Areas</h2>
-    <div class="pills reveal" style="margin-top: var(--s3)">
-      <span class="pill">West Norwood</span>
-      <span class="pill">Streatham</span>
-      <span class="pill">Streatham Hill</span>
-      <span class="pill">Tulse Hill</span>
-      <span class="pill">Upper Norwood</span>
-      <span class="pill">Crystal Palace</span>
-      <span class="pill">Dulwich</span>
-      <span class="pill">Herne Hill</span>
-    </div>
-  </section>
-
-  <div class="hairline"></div>
-
-  <!-- Contact -->
-  <section id="contact" class="wrap section">
-    <h2 class="reveal">Contact</h2>
-    <div class="tile reveal" style="margin-top: var(--s3)">
-      <p>For a free, no-obligation quotation, get in touch:</p>
-      <p style="margin-top: var(--s2)"><strong>Phone:</strong> <a href="tel:+447577649245">07577 649245</a></p>
-      <p><strong>Hours:</strong> Mon–Fri 8:00–18:00 · Sat 9:00–16:00</p>
+  <section id="contact" class="section container contact">
+    <div class="panel">
+      <h2>Contact</h2>
+      <p class="lead" style="text-align:center">Get in touch for a free, no‑obligation quotation.</p>
+      <a class="btn primary" href="tel:+447577649245">📞&nbsp; 07577 649245</a>
+      <div class="chips"><span class="chip">Mon–Fri: 8:00am – 6:00pm</span><span class="chip">Sat: 9:00am – 4:00pm</span></div>
     </div>
   </section>
 
   <footer>
-    <div class="wrap">© <span id="y"></span> ND Decorators</div>
+    <div class="container">© <span id="y"></span> ND Decorators. All rights reserved.</div>
   </footer>
 
-  <!-- Mobile sticky call -->
-  <a class="callbar" href="tel:+447577649245" aria-label="Call ND Decorators">Call 07577 649245</a>
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="sheet">
+      <ul>
+        <li><a href="#services" onclick="closeMenu()">Services</a></li>
+        <li><a href="#reviews" onclick="closeMenu()">Reviews</a></li>
+        <li><a href="#about" onclick="closeMenu()">About</a></li>
+        <li><a href="#areas" onclick="closeMenu()">Areas</a></li>
+        <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+      </ul>
+    </div>
+  </div>
 
-<script>
-/* Helper: close mobile menu */
-function closeMenu(){
-  document.body.classList.remove('menu-open');
-  const b = document.getElementById('burger');
-  b.setAttribute('aria-expanded','false');
-  document.getElementById('navOverlay').setAttribute('aria-hidden','true');
-}
+  <script>
+    // Year in footer
+    document.getElementById('y').textContent = new Date().getFullYear();
 
-/* Page ready + loader */
-document.addEventListener('DOMContentLoaded', () => {
-  // loader waits for fonts
-  Promise.all([
-    document.fonts ? document.fonts.ready : Promise.resolve(),
-    new Promise(r => setTimeout(r, 400))
-  ]).then(() => {
-    document.getElementById('loader').classList.add('hidden');
-    document.body.classList.add('ready');
-  });
+    // Mobile menu toggle
+    const overlay = document.getElementById('overlay');
+    const ham = document.getElementById('hambtn');
+    ham?.addEventListener('click', ()=> overlay.classList.toggle('open'));
+    window.closeMenu = ()=> overlay.classList.remove('open');
 
-  /* Sticky header subtle shadow on scroll */
-  const head = document.getElementById('head');
-  const onScroll = () => head.classList.toggle('scrolled', window.scrollY > 4);
-  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+    // Active indicator that sits on the header separator
+    const indicator = document.getElementById('indicator');
+    const links = Array.from(document.querySelectorAll('#navLinks a'));
+    const sections = links.map(a => document.querySelector(a.getAttribute('href')));
 
-  /* Section reveal observer */
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-  }, {rootMargin:'-5% 0px -5% 0px', threshold: .05});
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-  /* Active menu link highlight (both header + overlay) */
-  const allLinks = [...document.querySelectorAll('.menu a, .overlay-link')];
-  const sections = allLinks
-    .filter((v,i,a)=>a.findIndex(x=>x.getAttribute('href')===v.getAttribute('href'))===i)
-    .map(a => document.querySelector(a.getAttribute('href')))
-    .filter(Boolean);
-
-  const navIO = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        allLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+    function updateIndicator(){
+      let idx = 0;
+      const y = window.scrollY + window.innerHeight * 0.30; // probe line
+      const headerOffset = (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 72) + 24;
+      sections.forEach((sec,i)=>{ if(sec && (sec.offsetTop - headerOffset) <= y) idx = i; });
+      const link = links[idx];
+      if(!link) return;
+      // active class on current link
+      links.forEach(a => a.classList.toggle('active', a === link));
+      // move indicator along the header separator
+      const rect = link.getBoundingClientRect();
+      const railRect = document.querySelector('.nav-rail').getBoundingClientRect();
+      indicator.style.width = rect.width + 'px';
+      indicator.style.transform = `translateX(${rect.left - railRect.left}px)`;
+    }
+    function initIndicator(){
+      updateIndicator();
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(updateIndicator);
       }
-    });
-  }, {threshold: .5});
-  sections.forEach(sec => navIO.observe(sec));
-
-  /* Hamburger / overlay interactions */
-  const burger = document.getElementById('burger');
-  const overlay = document.getElementById('navOverlay');
-  burger.addEventListener('click', () => {
-    const open = !document.body.classList.contains('menu-open');
-    document.body.classList.toggle('menu-open');
-    burger.setAttribute('aria-expanded', String(open));
-    overlay.setAttribute('aria-hidden', String(!open));
-  });
-  overlay.addEventListener('click', (e) => { if(e.target === overlay) closeMenu(); });
-  document.querySelectorAll('.overlay-link').forEach(a => a.addEventListener('click', closeMenu));
-  window.addEventListener('keydown', (e) => { if(e.key==='Escape') closeMenu(); });
-
-  /* Footer year */
-  document.getElementById('y').textContent = new Date().getFullYear();
-});
-</script>
+    }
+    initIndicator();
+    window.addEventListener('scroll', updateIndicator, {passive:true});
+    window.addEventListener('resize', updateIndicator);
+    links.forEach(a => a.addEventListener('click', () => setTimeout(updateIndicator, 60)));
+  </script>
 </body>
 </html>
